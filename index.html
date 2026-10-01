@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Speak It Right — Live Tense Fixes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F8FB; --surface:#FFFFFF; --surface-alt:#EAF0F5;
+    --ink:#1D2733; --muted:#5B6C7C; --border:#DCE5ED;
+    --teal:#1F5B78; --teal-tint:#E4EFF3;
+    --berry:#9C4368; --berry-tint:#F5E7ED;
+    --amber:#C08A2E; --amber-tint:#FAF1DF;
+    --font-head:'Source Serif 4', serif; --font-body:'Work Sans', sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.5; -webkit-font-smoothing:antialiased;}
+  h1,h2{font-family:var(--font-head); font-weight:600; margin:0; color:var(--ink);}
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px 70px;}
+  header.top{border-bottom:1px solid var(--border); background:var(--surface); padding:26px 20px 18px;}
+  header.top .inner{max-width:720px; margin:0 auto;}
+  h1{font-size:clamp(22px,5vw,28px); letter-spacing:-0.01em;}
+  .lede{color:var(--muted); font-size:14px; margin-top:6px; max-width:56ch;}
+
+  .tabbar{position:sticky; top:0; z-index:5; background:rgba(245,248,251,0.95); backdrop-filter:blur(6px); border-bottom:1px solid var(--border); padding:9px 20px;}
+  .tabbar .row{max-width:720px; margin:0 auto; display:flex; gap:7px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;}
+  .tabbar .row::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:none; touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+    font-family:var(--font-body); font-size:12.5px; font-weight:700; color:var(--teal);
+    background:var(--teal-tint); border:1px solid transparent; padding:8px 13px; border-radius:100px;
+    cursor:pointer; transition:background .15s ease, color .15s ease, transform .1s ease;
+  }
+  .tab-btn:active{transform:scale(0.96);}
+  .tab-btn.active{background:var(--teal); color:#fff;}
+
+  .panel{display:none; padding-top:26px;}
+  .panel.active{display:block; animation:fadeIn .28s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .sec-head{margin-bottom:4px;}
+  .sec-head h2{font-size:19px;}
+  .sec-sub{color:var(--muted); font-size:13.5px; margin-bottom:16px;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--teal); border-radius:10px; padding:14px 16px; margin-bottom:10px;}
+  .card.berry{border-left-color:var(--berry);}
+  .card.amber{border-left-color:var(--amber);}
+  .card .trig{font-weight:700; font-size:14.5px; margin-bottom:6px;}
+  .ex{background:var(--surface-alt); border-radius:8px; padding:8px 11px; font-size:14px; margin-bottom:6px;}
+  .card.berry .ex{background:var(--berry-tint);} .card.amber .ex{background:var(--amber-tint);}
+  .ex em{font-style:normal; font-weight:600;}
+  .wrong{color:#B23A3A;} .right{color:#2C7A4B;}
+  .ar{direction:rtl; text-align:right; font-size:14px; color:var(--ink); line-height:1.9; margin-top:6px;}
+  .ar b{color:var(--teal);} .card.berry .ar b{color:var(--berry);} .card.amber .ar b{color:var(--amber);}
+
+  .drill{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:13px 16px; margin-bottom:8px; display:flex; gap:12px; align-items:flex-start;}
+  .drill .num{flex:none; width:24px; height:24px; border-radius:50%; background:var(--teal); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  .drill .txt{font-size:14.5px;}
+
+  .tw-list{display:flex; flex-direction:column; gap:8px;}
+  .tw-link{display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 13px; text-decoration:none;}
+  .tw-link svg{flex:none; width:18px; height:18px; color:var(--teal);}
+  .tw-link .t{font-weight:600; font-size:14px; color:var(--ink);}
+
+  footer{text-align:center; color:var(--muted); font-size:12.5px; padding:28px 20px 10px;}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="inner">
+  <h1>Speak It Right</h1>
+  <p class="lede">Tap a tab. Read the card. Say the fixed sentence out loud.</p>
+</div></header>
+
+<div class="tabbar"><div class="row">
+  <button class="tab-btn active" data-tab="top">Top slips</button>
+  <button class="tab-btn" data-tab="events">Two past events</button>
+  <button class="tab-btn" data-tab="reported">Reporting a call</button>
+  <button class="tab-btn" data-tab="ifrules">If rules</button>
+  <button class="tab-btn" data-tab="questions">Questions</button>
+  <button class="tab-btn" data-tab="demonstratives">This / that / their</button>
+  <button class="tab-btn" data-tab="plurals">Plurals</button>
+  <button class="tab-btn" data-tab="phone">Call phrases</button>
+  <button class="tab-btn" data-tab="polite">Polite asks</button>
+  <button class="tab-btn" data-tab="preps">in / on / at</button>
+  <button class="tab-btn" data-tab="link">Link &amp; stall</button>
+  <button class="tab-btn" data-tab="writing">Read &amp; write right</button>
+  <button class="tab-btn" data-tab="drill">60-sec drill</button>
+  <button class="tab-btn" data-tab="tongue">Twisters</button>
+</div></div>
+
+<div class="wrap">
+
+  <div class="panel active" id="panel-top">
+    <div class="sec-head"><h2>The slips that happen most while talking</h2></div>
+    <p class="sec-sub">This is the core set — if it's clean, most of your live speech is clean.</p>
+
+    <div class="card">
+      <div class="trig">Present Perfect vs Past Simple</div>
+      <div class="ex"><span class="wrong">✗ I have called him yesterday.</span></div>
+      <div class="ex"><span class="right">✓ I called him yesterday.</span></div>
+      <div class="ex"><span class="right">✓ I have already called him.</span> — no time word, result matters now.</div>
+      <div class="ex"><span class="right">✓ I've called him three times today.</span> — today isn't finished yet, so perfect still works.</div>
+      <div class="ex"><span class="wrong">✗ Have you spoke to him last night?</span></div>
+      <div class="ex"><span class="right">✓ Did you speak to him last night?</span> — "last night" is finished, so past simple, not perfect.</div>
+      <div class="ex"><span class="right">✓ I haven't finished the report yet.</span> — negative, no time word, present perfect.</div>
+      <div class="ar">
+        <b>الطريقة الأولى (الوقت):</b> لو في وقت خلص ومحدد (yesterday, last week, two days ago) استخدم past simple. لو مفيش وقت، أو الوقت لسه شغال (today, this week) استخدم have/has.<br><br>
+        <b>الطريقة التانية (النتيجة دلوقتي):</b> اسأل نفسك: النتيجة مهمة دلوقتي ولا الحكاية خلصت؟ لو مهمة دلوقتي (I've finished the report — التقرير جاهز قدامك) يبقى have/has. لو حكاية قديمة (I finished it yesterday) يبقى past simple.<br><br>
+        <b>الطريقة التالتة (كلمات الإشارة):</b> اسمع الكلمة اللي في جملتك: already, yet, ever, never, just, since يبقوا مع have/has. yesterday, last, ago, when يبقوا مع past simple. الكلمة دي بتختار لك الزمن من غير ما تفكر في القاعدة.
+      </div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">he / she / it + verb + s</div>
+      <div class="ex"><span class="wrong">✗ She call the client every morning.</span></div>
+      <div class="ex"><span class="right">✓ She calls the client every morning.</span></div>
+      <div class="ex"><span class="right">✓ The system sends a reminder automatically.</span></div>
+      <div class="ex"><span class="wrong">✗ He usually call after lunch.</span></div>
+      <div class="ex"><span class="right">✓ He usually calls after lunch.</span></div>
+      <div class="ex"><span class="right">✓ The manager checks the reports every Friday.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> he / she / it + present simple = الفعل + s. (calls, sends, checks)<br><br>
+        <b>الطريقة التانية (اختبار الفاعل):</b> أي حاجة تقدر تقول عنها "هو" أو "هي" تعتبر he/she/it: the client, the system, my manager. لو الفاعل واحد بس (مش I / you / we / they) يبقى محتاج s.<br><br>
+        <b>الطريقة التالتة (doesn't):</b> لو الجملة فيها does/doesn't، الـs بتروح للفعل المساعد والفعل الأساسي يرجع عادي: She calls → She doesn't call (مش doesn't calls). عوّد لسانك على الاتنين.
+      </div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">a / an before a singular noun</div>
+      <div class="ex"><span class="wrong">✗ I need approval from manager.</span></div>
+      <div class="ex"><span class="right">✓ I need approval from a manager. / from the manager.</span></div>
+      <div class="ex"><span class="right">✓ Let me open a ticket for this.</span></div>
+      <div class="ex"><span class="wrong">✗ She is agent on the closing team.</span></div>
+      <div class="ex"><span class="right">✓ She is an agent on the closing team.</span> — "an" before a vowel sound.</div>
+      <div class="ex"><span class="right">✓ I'll send you an update by email.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (أول مرة ولا معروف):</b> اسم مفرد ممكن يتعد + أول مرة تذكره = a/an. لو معروف للطرفين = the.<br><br>
+        <b>الطريقة التانية (النطق):</b> a أو an بالنطق مش بالحرف: a قبل صوت ساكن (a manager, a ticket, a user)، an قبل صوت متحرك (an agent, an update, an hour).<br><br>
+        <b>الطريقة التالتة (اختبار one):</b> قول "one" مكانها. لو ينفع (I need one manager) يبقى محتاج a/an. لو الاسم جمع (managers) أو مش بيتعد (information) مفيش a/an.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="trig">there is vs there are</div>
+      <div class="ex"><span class="wrong">✗ There's three clients waiting.</span></div>
+      <div class="ex"><span class="right">✓ There are three clients waiting.</span></div>
+      <div class="ex"><span class="right">✓ There's one agent on break.</span></div>
+      <div class="ex"><span class="wrong">✗ There's two calls on hold.</span></div>
+      <div class="ex"><span class="right">✓ There are two calls on hold.</span></div>
+      <div class="ex"><span class="right">✓ There isn't any update yet.</span> — singular negative, "there isn't".</div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> there's = there is → بتتبع اسم مفرد واحد بس. there are = بتتبع اسم جمع (اتنين أو أكتر). يعني لو هتقول رقم أكبر من واحد بعدها، خلاص القرار خلص — لازم "there are".<br><br>
+        <b>الطريقة التانية (الاختبار السريع):</b> قول الجملة تاني وشيل "there" وحط الاسم الأول بدالها كفاعل — "Three clients are waiting" (مش "is waiting"). الفعل اللي هيطلع صح هنا هو نفسه اللي هتحطه بعد there. لو حسيت إن الفعل بعد "there" باين وحش وانت بتتكلم بسرعة، بطّئ ثانية بس قبل ما تقول الرقم، عشان دماغك تلحق تختار is ولا are.<br><br>
+        <b>الطريقة التالتة (توقّع الكلمة اللي جاية):</b> قبل ما تقول there, اعرف أنت رايح لأنهي كلمة. a / an / one / another / any (مع مفرد) → there is. two / three / many / several / a few / some + جمع → there are. اختار is أو are على أساس الكلمة دي، مش على أساس العادة.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-events">
+    <div class="sec-head"><h2>Talking about two things that happened in the past</h2></div>
+    <div class="card">
+      <div class="trig">Which one had already happened?</div>
+      <div class="ex"><span class="right">✓ When I called back, he had already left.</span> — he left first (had + V3), I called second (V2).</div>
+      <div class="ex"><span class="right">✓ I was on the phone when the client called.</span> — ongoing action interrupted → was/were + V-ing, then simple past.</div>
+      <div class="ex"><span class="right">✓ By the time the supervisor arrived, the agent had already fixed the account.</span></div>
+      <div class="ex"><span class="right">✓ I had just hung up when he called back.</span> — hanging up finished right before the second call.</div>
+      <div class="ex"><span class="right">✓ We were reviewing the calls when the client walked in.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (مين الأول):</b> اتنين حصلوا في الماضي: اللي خلص الأول ياخد had + V3، واللي بعده past simple.<br><br>
+        <b>الطريقة التانية (خط الزمن):</b> ارسم خط زمن في دماغك: حدث 1 ← حدث 2 ← دلوقتي. الأبعد عن دلوقتي = had + V3، والأقرب = past simple.<br><br>
+        <b>الطريقة التالتة (كلمات الربط):</b> كلمات الربط: by the time, before, after, already, just بتدلك إن الأول محتاج had. ولو حاجة كانت شغالة وحاجة قاطعتها (when) يبقى was/were + ing للشغالة، وpast simple للقاطعة.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-reported">
+    <div class="sec-head"><h2>Reporting what a client or agent said</h2></div>
+    <div class="card">
+      <div class="trig">will → would, present → past, one step back</div>
+      <div class="ex">Client said: <em>"I will think about it."</em></div>
+      <div class="ex"><span class="right">✓ He said he would think about it.</span></div>
+      <div class="ex">Agent said: <em>"I called them yesterday."</em></div>
+      <div class="ex"><span class="right">✓ She said she had called them the day before.</span></div>
+      <div class="ex">Client asked: <em>"Can you call me back?"</em></div>
+      <div class="ex"><span class="right">✓ He asked if I could call him back.</span> — reported question, statement word order, no "?".</div>
+      <div class="ex">Client said: <em>"I don't want the upgrade."</em></div>
+      <div class="ex"><span class="right">✓ He said he didn't want the upgrade.</span></div>
+      <div class="ex">Supervisor said: <em>"Send me the report."</em></div>
+      <div class="ex"><span class="right">✓ She told me to send her the report.</span> — an order becomes "told + to + verb".</div>
+      <div class="ar">
+        <b>الطريقة الأولى (خطوة للورا):</b> الزمن بيرجع خطوة واحدة للورا: will → would، present → past، past → had + V3.<br><br>
+        <b>الطريقة التانية (أسئلة وأوامر):</b> السؤال بيتحول لجملة عادية من غير علامة استفهام: He asked if I could call him back. الأمر بيبقى told + to + verb: She told me to send her the report.<br><br>
+        <b>الطريقة التالتة (ضمائر ووقت):</b> غيّر الضمائر والوقت كمان: I → he/she، me → him/her، yesterday → the day before، tomorrow → the next day، today → that day.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-ifrules">
+    <div class="sec-head"><h2>If rules — the ones you'll actually use</h2></div>
+    <p class="sec-sub">Three patterns cover almost everything you'll say on a call.</p>
+
+    <div class="card">
+      <div class="trig">Zero conditional — always true, routine</div>
+      <div class="ex">If + present, present.</div>
+      <div class="ex"><span class="right">✓ If a call drops, the system logs it automatically.</span></div>
+      <div class="ex"><span class="right">✓ If an agent misses quota, the manager gets a report.</span></div>
+      <div class="ex"><span class="right">✓ If a client cancels, the account closes automatically.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> حقيقة ثابتة أو روتين دايمًا بيحصل: If + present, present. مفيش would ولا will.<br><br>
+        <b>الطريقة التانية (بدّل if بـ when):</b> جرّب تبدل if بـ when أو whenever. لو المعنى فضل سليم (Whenever a call drops...) يبقى zero conditional.<br><br>
+        <b>الطريقة التالتة (روتين ولا احتمال):</b> قبل ما تقول will اسأل نفسك: ده روتين ولا احتمال في المستقبل؟ روتين يبقى الاتنين present ومفيش will. احتمال يبقى انتقل للـfirst conditional.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="trig">First conditional — a real, likely future</div>
+      <div class="ex">If + present, will + base verb.</div>
+      <div class="ex"><span class="right">✓ If you call before 5 PM, I'll process it today.</span></div>
+      <div class="ex"><span class="right">✓ If he doesn't answer, I'll try again tomorrow.</span></div>
+      <div class="ex"><span class="right">✓ If the client agrees, I'll send the contract today.</span></div>
+      <div class="ex"><span class="right">✓ If you're free later, I'll walk you through the numbers.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> احتمال حقيقي وقريب: If + present, will + base verb.<br><br>
+        <b>الطريقة التانية (وعد أو عرض):</b> لو الجملة وعد أو تحذير أو عرض حقيقي في الشغل، استخدم first conditional. ده اللي هتقوله أكتر حاجة.<br><br>
+        <b>الطريقة التالتة (ممنوع will بعد if):</b> ممنوع will بعد if. ✗ If you will call before 5 → ✓ If you call before 5. الـwill في النتيجة بس. وتقدر تقلب الجملة: I'll process it today if you call before 5 PM.
+      </div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Second conditional — hypothetical, offers, opinions</div>
+      <div class="ex">If + past simple, would + base verb.</div>
+      <div class="ex"><span class="right">✓ If you upgraded today, I would lock in this price.</span></div>
+      <div class="ex"><span class="right">✓ If I were you, I would take the offer.</span> — always "were", not "was".</div>
+      <div class="ex"><span class="right">✓ If we had more agents, we would cover the night shift too.</span></div>
+      <div class="ex"><span class="right">✓ If the price were lower, more clients would upgrade.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> حاجة خيالية أو مش حقيقية دلوقتي: If + past simple, would + base verb. ومع كل الضمائر قول were: If I were you.<br><br>
+        <b>الطريقة التانية (عرض بلطف):</b> استخدمها لما تعرض بلطف أو تدي رأي: If you upgraded today, I would lock in this price أنعم وأكتر أدب من If you upgrade.<br><br>
+        <b>الطريقة التالتة (الـpast مش ماضي):</b> الـpast في if مش معناه ماضي، ده علامة إن الكلام خيال. عشان كده If I were you (دلوقتي) مش ماضي. في الكلام السريع If I was بتتقال، لكن were أنضف في الشغل.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-questions">
+    <div class="sec-head"><h2>Asking it right, live</h2></div>
+    <div class="card">
+      <div class="trig">did / have — don't mix the helper verb with the main verb's tense</div>
+      <div class="ex"><span class="wrong">✗ Did you called them already?</span></div>
+      <div class="ex"><span class="right">✓ Did you call them already?</span> — did already carries the past, verb stays base form.</div>
+      <div class="ex"><span class="right">✓ Have you called them yet?</span></div>
+      <div class="ex"><span class="right">✓ Has she updated the account?</span> — has, not have, with she.</div>
+      <div class="ex"><span class="wrong">✗ What time did the meeting was?</span></div>
+      <div class="ex"><span class="right">✓ What time was the meeting?</span> — "be" doesn't need "did".</div>
+      <div class="ex"><span class="right">✓ Why didn't he call back?</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (did بتشيل الماضي):</b> لو استخدمت "did"، الفعل اللي بعده يرجع لصورته الأساسية (call مش called) لأن "did" هي اللي شايلة الماضي. الغلطة الشائعة إنك تحط الاتنين ماضي مع بعض.<br><br>
+        <b>الطريقة التانية (فعل واحد للزمن):</b> في كل جملة فعل واحد بس يشيل الزمن: did / does / has / have / was. لو المساعد موجود، الفعل الأساسي مايتغيرش: Did you call، Does she call. ومع has/have الأساسي V3: Has she called.<br><br>
+        <b>الطريقة التالتة (حوّل من جملة عادية):</b> حوّل السؤال لجملة عادية الأول: You called them → لما تسأل تحط did قدام وترجع called لـcall: Did you call them. لو سمعت نفسك بتقول did + كلمة بتخلص بـ ed يبقى غلط. ومع be (was/were) مفيش did خالص.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-demonstratives">
+    <div class="sec-head"><h2>This / that / these / those — and their / there / they're</h2></div>
+    <p class="sec-sub">Two quick questions decide it: how close? one or more than one?</p>
+
+    <div class="card">
+      <div class="trig">this / these = close · that / those = far</div>
+      <div class="ex"><span class="right">✓ This call is important.</span> — the call happening now.</div>
+      <div class="ex"><span class="right">✓ That call yesterday was long.</span> — a call that's over.</div>
+      <div class="ex"><span class="right">✓ These reports are ready.</span> — plural, in front of me.</div>
+      <div class="ex"><span class="right">✓ Those clients called back.</span> — plural, not here, or in the past.</div>
+      <div class="ex"><span class="wrong">✗ This clients are waiting.</span> → <span class="right">✓ These clients are waiting.</span></div>
+      <div class="ex"><span class="wrong">✗ Those report is ready.</span> → <span class="right">✓ That report is ready.</span></div>
+      <div class="ar"><b>الطريقة الأولى (المسافة):</b> قريب مني أو بيحصل دلوقتي = this/these. بعيد أو خلص = that/those.<br><br>
+      <b>الطريقة التانية (العدد):</b> بص على الاسم اللي بعدها الأول. لو مفرد (call) يبقى this/that، ولو جمع (calls) يبقى these/those. الـ"s" في آخر الاسم هي اللي بتقرر.<br><br>
+      <b>الطريقة التالتة (الوقت):</b> الوقت اللي لسه شغال بياخد this/these (this week, this morning, these days). الوقت اللي خلص بياخد that/those (that day, those years).</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">On the phone: this = me, that = you</div>
+      <div class="ex"><span class="right">✓ Hi, this is Ahmed from Incall.</span></div>
+      <div class="ex"><span class="right">✓ Is this Mr. Smith?</span></div>
+      <div class="ex"><span class="right">✓ Who's this? / Who's calling?</span></div>
+      <div class="ex"><span class="wrong">✗ Hi, I am Ahmed.</span> → <span class="right">✓ Hi, this is Ahmed.</span></div>
+      <div class="ex"><span class="right">✓ That's correct. / That's right.</span> — confirming what the client said.</div>
+      <div class="ar">
+        <b>الطريقة الأولى (تعرّف بنفسك):</b> this is بتعرّف بيها نفسك في التليفون: Hi, this is Ahmed. مش I am.<br><br>
+        <b>الطريقة التانية (تأكيد):</b> that's right / that's correct بتأكد بيها على كلام العميل، لأن كلامه اتقال خلاص.<br><br>
+        <b>الطريقة التالتة (تسأل مين المتصل):</b> لما تسأل مين بيتكلم قول Who's calling? أو May I ask who's calling? — مش Who are you? لأنها مباشرة قوي. وتتأكد إنه هو بـ Is this Mr. Smith?
+      </div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">their / there / they're — three words, one sound</div>
+      <div class="ex"><span class="right">✓ Their account is active.</span> — their = belongs to them.</div>
+      <div class="ex"><span class="right">✓ The file is over there.</span> — there = place.</div>
+      <div class="ex"><span class="right">✓ They're waiting for a reply.</span> — they're = they are.</div>
+      <div class="ex"><span class="right">✓ They're at their desk, so call them there.</span> — all three in one sentence.</div>
+      <div class="ar">
+        <b>الطريقة الأولى (اختبار they are):</b> جرّب تحط "they are" مكان الكلمة. لو الجملة فضلت سليمة يبقى they're.<br><br>
+        <b>الطريقة التانية (مكان):</b> لو الكلمة بتقول مكان (over there) أو there is/there are يبقى there.<br><br>
+        <b>الطريقة التالتة (اسم بعدها):</b> their لازم يجي بعدها اسم (their account, their team). لو جه بعدها فعل (waiting, calling) يبقى مش their، ده they're.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="trig">his / her / its / our / your — whose is it?</div>
+      <div class="ex"><span class="right">✓ He updated his notes. / She updated her notes.</span></div>
+      <div class="ex"><span class="right">✓ The system saved its data.</span> — its = no apostrophe.</div>
+      <div class="ex"><span class="right">✓ We finished our calls. / Did you finish your calls?</span></div>
+      <div class="ex"><span class="wrong">✗ She called his client.</span> (when the client is hers) → <span class="right">✓ She called her client.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (بتاعة مين):</b> اسأل نفسك: الحاجة بتاعة مين؟ راجل = his، ست = her، حاجة = its، احنا = our، أنت = your.<br><br>
+        <b>الطريقة التانية (الفاعل):</b> اختار حسب صاحب الحاجة مش حسب الاسم اللي بعدها. غالبًا صاحب الحاجة هو نفسه الفاعل: He updated his notes، She updated her notes، We finished our calls.<br><br>
+        <b>الطريقة التالتة (its و it's):</b> its من غير apostrophe = ملكية. it's = it is. جرّب تقول it is: لو الجملة مضبوطة يبقى it's، غير كده its.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-plurals">
+    <div class="sec-head"><h2>Plurals — the ones with no "s"</h2></div>
+    <p class="sec-sub">Some plurals change shape instead of adding "s". Some words look plural but aren't.</p>
+
+    <div class="card">
+      <div class="trig">Irregular plurals — memorize these</div>
+      <div class="ex"><span class="right">✓ man → men · woman → women</span> — "woman" = WUM-un, "women" = WIM-in.</div>
+      <div class="ex"><span class="right">✓ child → children · person → people</span></div>
+      <div class="ex"><span class="right">✓ foot → feet · tooth → teeth</span></div>
+      <div class="ex"><span class="wrong">✗ Three womans called today.</span> → <span class="right">✓ Three women called today.</span></div>
+      <div class="ex"><span class="wrong">✗ Many persons are waiting.</span> → <span class="right">✓ Many people are waiting.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (حفظ):</b> الكلمات دي مبتاخدش "s". حفظها ضروري لأنها بتتكرر جامد في الشغل: people, men, women, children.<br><br>
+        <b>الطريقة التانية (نطق):</b> النطق بيفرق: woman = WUM-un (المقطع الأول u)، women = WIM-in (المقطع الأول i). ركز في الصوت الأول.<br><br>
+        <b>الطريقة التالتة (مجموعات):</b> احفظهم مجموعات: man/woman → men/women (a تبقى e)، foot/tooth → feet/teeth (oo تبقى ee)، child → children (بتزيد ren)، person → people (كلمة جديدة).
+      </div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">people, men, women = plural verb (are / have / don't)</div>
+      <div class="ex"><span class="wrong">✗ The people is waiting.</span> → <span class="right">✓ The people are waiting.</span></div>
+      <div class="ex"><span class="wrong">✗ Two women has called.</span> → <span class="right">✓ Two women have called.</span></div>
+      <div class="ex"><span class="wrong">✗ The men doesn't answer.</span> → <span class="right">✓ The men don't answer.</span></div>
+      <div class="ex"><span class="right">✓ There are many people on hold.</span> — and "there are", not "there's".</div>
+      <div class="ar">
+        <b>الطريقة الأولى (جمع معنى):</b> people و men و women معناهم جمع حتى لو مفيش "s"، فالفعل جمع (are/have/don't).<br><br>
+        <b>الطريقة التانية (they):</b> حط "they" مكانهم. "They are waiting" مش "They is waiting". اللي بينفع مع they هو اللي بينفع مع people.<br><br>
+        <b>الطريقة التالتة (عدّ):</b> لو تقدر تقول "two people" يبقى جمع (many people, a few people). أما person فمفرد: The person is waiting، A person has called.
+      </div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">Words that never take "s" (uncountable)</div>
+      <div class="ex"><span class="wrong">✗ I need some informations.</span> → <span class="right">✓ I need some information.</span></div>
+      <div class="ex"><span class="wrong">✗ He gave me an advice.</span> → <span class="right">✓ He gave me some advice. / a piece of advice.</span></div>
+      <div class="ex"><span class="right">✓ The feedback was positive.</span> — feedback is singular.</div>
+      <div class="ex"><span class="right">✓ The equipment is ready.</span> — same for work, money, news, training.</div>
+      <div class="ex"><span class="right">✓ The news is good.</span> — looks plural, but it's singular.</div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> مفيش s ومفيش a/an، والفعل مفرد (is): information, advice, feedback, equipment, news, training, work.<br><br>
+        <b>الطريقة التانية (اختبار two):</b> جرّب تقول "two ___s". لو غلط (two informations ✗) يبقى مش بيتعد. استخدم much مش many، وsome أو a lot of.<br><br>
+        <b>الطريقة التالتة (piece of):</b> لو عايز عدد قول a piece of / two pieces of: a piece of advice، two pieces of information. ولو الكلمة مش piece قول a member of staff.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="trig">Groups: team, staff, police</div>
+      <div class="ex"><span class="right">✓ The police are on their way.</span> — always plural.</div>
+      <div class="ex"><span class="right">✓ The team is ready. / The team are ready.</span> — one unit, or the members (both are acceptable).</div>
+      <div class="ex"><span class="right">✓ Our staff is trained. / Our staff are trained.</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (القاعدة):</b> police جمع دايمًا (The police are...). أما team و staff فتقدر تعاملهم كوحدة (is) أو كأفراد (are).<br><br>
+        <b>الطريقة التانية (وحدة ولا أفراد):</b> لو بتتكلم عن المجموعة كوحدة واحدة استخدم is. لو بتتكلم عن الأفراد جواها وهما بيعملوا حاجات مختلفة استخدم are.<br><br>
+        <b>الطريقة التالتة (ثبات):</b> اختار واحدة وكمل عليها في الجملة كلها: The team is ready and it will start. أو The team are ready and they will start. مش تخلط الاتنين.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-phone">
+    <div class="sec-head"><h2>Call phrases — ready-made sentences</h2></div>
+    <p class="sec-sub">Learn these as whole blocks. Don't build them word by word while the client is waiting.</p>
+
+    <div class="card">
+      <div class="trig">Opening the call</div>
+      <div class="ex"><span class="right">✓ Hi, this is Ahmed from Incall Outsourcing. Am I speaking with Mr. Smith?</span></div>
+      <div class="ex"><span class="right">✓ Is this a good time to talk? / Do you have a minute?</span></div>
+      <div class="ex"><span class="right">✓ I'm calling about your account. / The reason for my call is...</span></div>
+      <div class="ex"><span class="wrong">✗ Hi, I am Ahmed, I want to talk with you.</span> → <span class="right">✓ Hi, this is Ahmed. Do you have a minute?</span></div>
+      <div class="ar"><b>الطريقة الأولى (الترتيب):</b> الافتتاح دايمًا بنفس الترتيب: أنا مين + من أنهي شركة + بكلم مين + ليه بتصل.<br><br>
+      <b>الطريقة التانية (الأدب):</b> اسأل العميل الوقت مناسب ولا لأ قبل ما تكمل. ده أدب، وبيقلل إنه يقفل في وشك.<br><br>
+      <b>الطريقة التالتة (الحفظ كقالب):</b> احفظها كقالب واحد وقولها بصوت عالي 3 مرات ورا بعض بنفس الترتيب لحد ما تطلع من غير تفكير.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Checking, holding, transferring</div>
+      <div class="ex"><span class="right">✓ Let me check that for you.</span></div>
+      <div class="ex"><span class="right">✓ Can I place you on a brief hold? — Thank you for holding.</span></div>
+      <div class="ex"><span class="right">✓ Sorry to keep you waiting.</span></div>
+      <div class="ex"><span class="right">✓ I'll transfer you to my colleague. / Let me connect you with the right team.</span></div>
+      <div class="ex"><span class="wrong">✗ Wait. / Hold on.</span> → <span class="right">✓ One moment, please.</span></div>
+      <div class="ar"><b>الطريقة الأولى (جملة لكل موقف):</b> كل موقف ليه جملة ثابتة: بتدوّر = Let me check، هتحطه on hold = Can I place you on hold، بترجع = Thank you for holding.<br><br>
+      <b>الطريقة التانية (الإذن والشكر):</b> اطلب الإذن قبل الـhold وشكره بعدها. متحطش العميل على الانتظار من غير ما تقول.<br><br>
+      <b>الطريقة التالتة (بدل الكلمة الحادة):</b> استبدل الكلمات القصيرة الحادة (Wait / Hold on) بـ One moment, please. نفس المعنى بس أنعم بكتير.</div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">Asking the client to repeat or confirm</div>
+      <div class="ex"><span class="right">✓ Could you repeat that, please?</span></div>
+      <div class="ex"><span class="right">✓ Could you spell that for me?</span></div>
+      <div class="ex"><span class="right">✓ Just to confirm, that's 7-7-3-9, correct?</span></div>
+      <div class="ex"><span class="right">✓ Let me make sure I understood: you want to cancel the service, right?</span></div>
+      <div class="ex"><span class="wrong">✗ What? / Again?</span> → <span class="right">✓ Sorry, could you say that again?</span></div>
+      <div class="ar"><b>الطريقة الأولى (لو مسمعتش):</b> لو مسمعتش: Sorry, could you say that again؟ مش What.<br><br>
+      <b>الطريقة التانية (تأكيد رقم):</b> لو عايز تتأكد من رقم أو اسم، اقراه للعميل رقم رقم وقول Correct؟ ده بيحميك من الغلط.<br><br>
+      <b>الطريقة التالتة (تأكيد فهم):</b> لو عايز تتأكد إنك فهمت الطلب، لخّصه بكلامك: Let me make sure I understood...</div>
+    </div>
+
+    <div class="card">
+      <div class="trig">When the client says not interested</div>
+      <div class="ex"><span class="right">✓ I understand. May I ask what's holding you back?</span></div>
+      <div class="ex"><span class="right">✓ Totally fair. Can I send you a short email with the details?</span></div>
+      <div class="ex"><span class="right">✓ Would it be okay if I follow up next week?</span></div>
+      <div class="ex"><span class="right">✓ Thank you for your time. Have a great day.</span></div>
+      <div class="ex"><span class="wrong">✗ Why not?</span> → <span class="right">✓ May I ask what your main concern is?</span></div>
+      <div class="ar"><b>الطريقة الأولى (تفهّم):</b> ابدأ بالتفهم (I understand) قبل أي سؤال. ما تجادلش.<br><br>
+      <b>الطريقة التانية (بديل صغير):</b> اعرض بديل صغير بدل ما تصر: إيميل، أو متابعة في وقت تاني. ده بيسيب الباب مفتوح.<br><br>
+      <b>الطريقة التالتة (اسأل بأدب):</b> اسأل عن السبب بأدب (May I ask...) لو حسيت إن فيه فرصة. لو لأ، اقفل بلطف.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Closing the call</div>
+      <div class="ex"><span class="right">✓ Is there anything else I can help you with?</span></div>
+      <div class="ex"><span class="right">✓ To recap, I've updated your account and I'll send a confirmation email today.</span></div>
+      <div class="ex"><span class="right">✓ Thank you for calling. Have a great day.</span></div>
+      <div class="ex"><span class="wrong">✗ OK bye.</span> → <span class="right">✓ Thank you for your time. Have a great day.</span></div>
+      <div class="ar"><b>الطريقة الأولى (الخطوات):</b> القفل ليه 3 خطوات: هل في حاجة تانية؟ + ملخص + شكر وتمنّي يوم سعيد.<br><br>
+      <b>الطريقة التانية (الملخص):</b> الملخص (To recap) بيأكد للعميل إيه اللي اتعمل وإيه اللي جاي، وبيقلل الشكاوى بعدين.<br><br>
+      <b>الطريقة التالتة (آخر انطباع):</b> اقفل دايمًا بجملة كاملة مش OK bye. آخر انطباع هو اللي بيفضل عند العميل.</div>
+    </div>
+
+  </div>
+
+  <div class="panel" id="panel-polite">
+    <div class="sec-head"><h2>Can / could / would / may — asking politely</h2></div>
+    <p class="sec-sub">Same request, different level of politeness. Pick by who you're talking to.</p>
+
+    <div class="card">
+      <div class="trig">Asking the client to do something</div>
+      <div class="ex"><span class="right">✓ Can you hold? — casual, with a colleague.</span></div>
+      <div class="ex"><span class="right">✓ Could you hold, please? — polite, the default with clients.</span></div>
+      <div class="ex"><span class="right">✓ Would you mind holding for a moment? — very polite.</span> — after mind, verb + ing</div>
+      <div class="ex"><span class="wrong">✗ Would you mind to hold?</span> → <span class="right">✓ Would you mind holding?</span></div>
+      <div class="ex"><span class="wrong">✗ Could you to send me the file?</span> → <span class="right">✓ Could you send me the file?</span></div>
+      <div class="ar"><b>الطريقة الأولى (المستويات):</b> ثلاث مستويات: Can (عادي) ← Could (مؤدب، المستوى اللي تستخدمه مع العميل) ← Would you mind (مؤدب جدًا).<br><br>
+      <b>الطريقة التانية (شكل الفعل):</b> بعد can / could / would يجي الفعل من غير to: Could you send. لكن بعد Would you mind يجي الفعل + ing: Would you mind sending.<br><br>
+      <b>الطريقة التالتة (مع مين):</b> مع العميل ابدأ بـ Could you... وكلمة please. لو موقف حساس (تشكيك أو تصعيد) ارفع لـ Would you mind.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Offering help</div>
+      <div class="ex"><span class="right">✓ May I have your name, please?</span></div>
+      <div class="ex"><span class="right">✓ Can I help you with anything else?</span></div>
+      <div class="ex"><span class="right">✓ Would you like me to send it by email?</span> — would you like + me + to + verb</div>
+      <div class="ex"><span class="wrong">✗ Do you want I send it by email?</span> → <span class="right">✓ Would you like me to send it by email?</span></div>
+      <div class="ex"><span class="right">✓ I'd like to confirm your address.</span> — I'd = I would</div>
+      <div class="ar"><b>الطريقة الأولى (May / Can):</b> May I / Can I لما تطلب حاجة أو تعرض مساعدة. May أرسمى شوية.<br><br>
+      <b>الطريقة التانية (قالب العرض):</b> للعرض المؤدب استخدم Would you like me to + فعل. الصيغة ثابتة، حفظها كقالب.<br><br>
+      <b>الطريقة التالتة (I'd like):</b> I'd like to... هي أنعم من I want to. استخدمها لما تطلب أو تعلن نيتك.</div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">Saying no politely</div>
+      <div class="ex"><span class="right">✓ I'm afraid I can't approve that, but I can offer you another option.</span></div>
+      <div class="ex"><span class="right">✓ Unfortunately, that isn't available right now.</span></div>
+      <div class="ex"><span class="right">✓ I understand your concern. Let me see what I can do.</span></div>
+      <div class="ex"><span class="wrong">✗ No, you can't.</span> → <span class="right">✓ I'm sorry, that isn't possible, but here's what I can do.</span></div>
+      <div class="ar"><b>الطريقة الأولى (مقدمة قبل الرفض):</b> ابدأ بـ I'm afraid أو Unfortunately قبل الرفض. ده بيخفف الصدمة.<br><br>
+      <b>الطريقة التانية (بديل بعد الرفض):</b> دايمًا اربط الرفض ببديل: ...but I can offer you. العميل يحس إنك بتحاول تساعد.<br><br>
+      <b>الطريقة التالتة (تفهّم):</b> ابدأ بتفهم مشكلته (I understand your concern) قبل ما تقول لأ. ده بيهدي التوتر.</div>
+    </div>
+
+  </div>
+
+  <div class="panel" id="panel-preps">
+    <div class="sec-head"><h2>in / on / at / for / since — the small words</h2></div>
+    <p class="sec-sub">Small words, big mistakes. These are the ones that slip most when you talk fast.</p>
+
+    <div class="card">
+      <div class="trig">Time: in / on / at</div>
+      <div class="ex"><span class="right">✓ in March · in 2026 · in the morning · in ten minutes</span></div>
+      <div class="ex"><span class="right">✓ on Monday · on March 5th · on the weekend · on my birthday</span></div>
+      <div class="ex"><span class="right">✓ at 5 PM · at noon · at night · at the moment</span></div>
+      <div class="ex"><span class="wrong">✗ I'll call you in Monday.</span> → <span class="right">✓ I'll call you on Monday.</span></div>
+      <div class="ex"><span class="wrong">✗ See you on 5 PM.</span> → <span class="right">✓ See you at 5 PM.</span></div>
+      <div class="ar"><b>الطريقة الأولى (كبير لصغير):</b> من الكبير للصغير: in = فترة كبيرة (شهر، سنة، صباح)، on = يوم أو تاريخ، at = ساعة أو نقطة محددة.<br><br>
+      <b>الطريقة التانية (اختبار الكلمة):</b> اختبار الكلمة: لو في اسم يوم أو تاريخ → on. لو في ساعة → at. لو في شهر أو سنة → in.<br><br>
+      <b>الطريقة التالتة (تعبيرات ثابتة):</b> حفظ التعبيرات الثابتة: in the morning / afternoon / evening، لكن at night، on the weekend. دي استثناءات اتعود عليها.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">for / since / ago</div>
+      <div class="ex"><span class="right">✓ I've worked here for three years.</span></div>
+      <div class="ex"><span class="right">✓ I've worked here since 2023.</span></div>
+      <div class="ex"><span class="right">✓ I started here three years ago.</span></div>
+      <div class="ex"><span class="wrong">✗ I work here since 2023.</span> → <span class="right">✓ I've worked here since 2023.</span></div>
+      <div class="ex"><span class="wrong">✗ I started here since three years.</span> → <span class="right">✓ I started here three years ago.</span></div>
+      <div class="ar"><b>الطريقة الأولى (القاعدة):</b> for + مدة (three years, two hours). since + نقطة بداية (2023, Monday). ago + past simple.<br><br>
+      <b>الطريقة التانية (مع الزمن):</b> since و for بيتبعوا present perfect (have worked) لأن الحكاية لسه مستمرة. ago بيتبع past simple لأنها خلصت.<br><br>
+      <b>الطريقة التالتة (مدة ولا بداية):</b> اسأل نفسك: بقولها كمدة ولا كبداية؟ مدة = for، بداية = since، من فترة ورا = ago.</div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">Verbs that need a preposition</div>
+      <div class="ex"><span class="right">✓ wait for · listen to · depend on · look for</span></div>
+      <div class="ex"><span class="right">✓ talk to a client · agree with a person · agree to a plan</span></div>
+      <div class="ex"><span class="wrong">✗ I'm waiting your reply.</span> → <span class="right">✓ I'm waiting for your reply.</span></div>
+      <div class="ex"><span class="wrong">✗ I'll depend in the report.</span> → <span class="right">✓ I'll depend on the report.</span></div>
+      <div class="ex"><span class="wrong">✗ Listen me, please.</span> → <span class="right">✓ Listen to me, please.</span></div>
+      <div class="ar"><b>الطريقة الأولى (الفعل + حرفه):</b> حفظ الأفعال مع حرفها كأنها كلمة واحدة: wait for، listen to، depend on. متحفظش الفعل لوحده.<br><br>
+      <b>الطريقة التانية (السبب):</b> العربي بيقول انتظر حاجة من غير حرف، فبننسى for. اسأل نفسك: الفعل ده محتاج حرف؟ لو مش متأكد ابحث عنه واحفظه.<br><br>
+      <b>الطريقة التالتة (قايمتك):</b> اعمل لنفسك قايمة صغيرة بالأفعال اللي غلطت فيها قبل كده، وراجعها قبل المكالمات.</div>
+    </div>
+
+    <div class="card">
+      <div class="trig">Verbs with NO preposition</div>
+      <div class="ex"><span class="right">✓ I'll call you tomorrow.</span></div>
+      <div class="ex"><span class="right">✓ Let's discuss the plan.</span></div>
+      <div class="ex"><span class="right">✓ Please answer the phone.</span></div>
+      <div class="ex"><span class="wrong">✗ I'll call to you tomorrow.</span> → <span class="right">✓ I'll call you tomorrow.</span></div>
+      <div class="ex"><span class="wrong">✗ Let's discuss about the plan.</span> → <span class="right">✓ Let's discuss the plan.</span></div>
+      <div class="ar"><b>الطريقة الأولى (القاعدة):</b> في أفعال بتاخد مفعول مباشرة من غير حرف: call, discuss, answer, reach, mention, enter.<br><br>
+      <b>الطريقة التانية (اختبار):</b> اختبار: لو الفعل بمعنى واضح ومباشر (اتصل بـ، ناقش، جاوب على) غالبًا مش محتاج حرف.<br><br>
+      <b>الطريقة التالتة (ليه بنغلط):</b> في لسانك العربي في حرف (ناقش «في»، اتصل «بـ»)، فبتضيف حرف بالغلط. فكّر في الفعل الإنجليزي لوحده.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Place: at / in / on</div>
+      <div class="ex"><span class="right">✓ at my desk · at work · at home</span></div>
+      <div class="ex"><span class="right">✓ in the office · in a meeting · in the system</span></div>
+      <div class="ex"><span class="right">✓ on the phone · on hold · on the call</span></div>
+      <div class="ex"><span class="wrong">✗ He is in the phone.</span> → <span class="right">✓ He is on the phone.</span></div>
+      <div class="ex"><span class="wrong">✗ She is at a meeting.</span> → <span class="right">✓ She is in a meeting.</span></div>
+      <div class="ar"><b>الطريقة الأولى (المعنى):</b> at = نقطة أو مكان عام (desk, work, home). in = جوا حاجة (office, meeting, system). on = فوق سطح أو اتصال (phone, hold).<br><br>
+      <b>الطريقة التانية (قوالب الشغل):</b> حفظ تعبيرات الشغل كقوالب: on hold، on the phone، in a meeting، at my desk.<br><br>
+      <b>الطريقة التالتة (جوا ولا على):</b> اسأل نفسك: هو جوا الحاجة (in)، ولا على سطحها/متصل بيها (on)، ولا عندها بس (at)؟</div>
+    </div>
+
+  </div>
+
+  <div class="panel" id="panel-link">
+    <div class="sec-head"><h2>Buying time, linking ideas, correcting yourself</h2></div>
+    <p class="sec-sub">Fill the silence with real sentences. Connect ideas so you sound smooth.</p>
+
+    <div class="card">
+      <div class="trig">Buying time without saying "eee"</div>
+      <div class="ex"><span class="right">✓ Let me think for a second.</span></div>
+      <div class="ex"><span class="right">✓ Give me a second, please. / One moment, please.</span></div>
+      <div class="ex"><span class="right">✓ That's a good question. Let me pull that up.</span></div>
+      <div class="ex"><span class="right">✓ Let me see...</span></div>
+      <div class="ex"><span class="wrong">✗ Eee... uh... eee...</span> → <span class="right">✓ Let me check that for you.</span></div>
+      <div class="ar"><b>الطريقة الأولى (جملة كاملة):</b> بدل الصوت الفاضي قول جملة كاملة: Let me think. ده بيديك وقت وبيبان أحسن.<br><br>
+      <b>الطريقة التانية (مجاملة قبل السؤال):</b> استخدم جملة مؤقتة قبل السؤال الصعب: That's a good question. ودي بتديك 3 ثواني.<br><br>
+      <b>الطريقة التالتة (قول اللي بتعمله):</b> وقت البحث أو الفتح، قول اللي بتعمله: Let me pull that up. العميل يفهم إنك شغال مش واقف.</div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Linking ideas: because / so / but / however</div>
+      <div class="ex"><span class="right">✓ I'm calling because your offer ends today.</span></div>
+      <div class="ex"><span class="right">✓ The price went up, so I wanted to let you know.</span></div>
+      <div class="ex"><span class="right">✓ It's a great plan, but it's a little expensive.</span></div>
+      <div class="ex"><span class="right">✓ It's a great plan. However, the price is high.</span></div>
+      <div class="ex"><span class="wrong">✗ I called. Because the offer ends.</span> → <span class="right">✓ I called because the offer ends.</span></div>
+      <div class="ex"><span class="wrong">✗ The reason is because it's cheaper.</span> → <span class="right">✓ The reason is that it's cheaper.</span></div>
+      <div class="ar"><b>الطريقة الأولى (المعاني):</b> because = السبب (ليه)، so = النتيجة (عشان كده)، but = تناقض، however = تناقض برضه بس أرسمى وبتبدأ به جملة جديدة.<br><br>
+      <b>الطريقة التانية (because):</b> because ميبدأش جملة لوحده في الكلام الرسمي. اربطها بالجملة اللي قبلها: I called because... مش I called. Because...<br><br>
+      <b>الطريقة التالتة (the reason):</b> مع the reason بتقول that مش because: The reason is that... ودي غلطة شائعة.</div>
+    </div>
+
+    <div class="card amber">
+      <div class="trig">Putting things in order</div>
+      <div class="ex"><span class="right">✓ First, I'll check your account. Then, I'll update your details.</span></div>
+      <div class="ex"><span class="right">✓ After that, I'll send a confirmation email.</span></div>
+      <div class="ex"><span class="right">✓ Finally, I'll give you a reference number.</span></div>
+      <div class="ex"><span class="right">✓ Before we finish, let me repeat the details.</span></div>
+      <div class="ar"><b>الطريقة الأولى (الترتيب):</b> الترتيب: First ← Then ← After that ← Finally. استخدمهم لما تشرح خطوات للعميل.<br><br>
+      <b>الطريقة التانية (جمل قصيرة):</b> كل خطوة في جملة قصيرة. متحطش 3 خطوات في جملة واحدة طويلة.<br><br>
+      <b>الطريقة التالتة (قول العدد):</b> ابدأ بقول عدد الخطوات: There are three steps. ده بيهيّئ العميل ويخليه يتابعك.</div>
+    </div>
+
+    <div class="card">
+      <div class="trig">Correcting yourself smoothly</div>
+      <div class="ex"><span class="right">✓ Sorry, let me rephrase that.</span></div>
+      <div class="ex"><span class="right">✓ What I meant to say is...</span></div>
+      <div class="ex"><span class="right">✓ Let me put it another way.</span></div>
+      <div class="ex"><span class="right">✓ Actually, let me correct that. It's 7-7-3-9.</span></div>
+      <div class="ar"><b>الطريقة الأولى (اعتراف سريع):</b> لو غلطت في جملة، متسكتش. قول Sorry, let me rephrase وكمل. ده بيبان محترف مش غلط.<br><br>
+      <b>الطريقة التانية (اللي كنت أقصده):</b> استخدم What I meant to say is... لما تحس إن الفكرة مطلعتش صح.<br><br>
+      <b>الطريقة التالتة (تصحيح معلومة):</b> لو غلطت في رقم أو معلومة قول Actually, let me correct that وصحح على طول. العميل يحترم الصراحة.</div>
+    </div>
+
+  </div>
+
+  <div class="panel" id="panel-writing">
+    <div class="sec-head"><h2>Read it right, write it right</h2></div>
+    <p class="sec-sub">Speech forgives a lot. Writing doesn't — these are the two habits that fix that.</p>
+
+    <div class="card">
+      <div class="trig">Reading aloud — numbers, dates, and unfamiliar words</div>
+      <div class="ex"><span class="right">✓ Account 4-4-2-1: say each digit alone — "four, four, two, one" — not "forty-four, twenty-one".</span></div>
+      <div class="ex"><span class="right">✓ 03/05: say "March the fifth" or "the fifth of March", not "zero three, zero five".</span></div>
+      <div class="ex"><span class="right">✓ 3:30 PM: say "three thirty" — not "three and half".</span></div>
+      <div class="ex"><span class="right">✓ $1,250: say "one thousand two hundred and fifty dollars" or "twelve fifty" casually — not "one two five zero".</span></div>
+      <div class="ex"><span class="right">✓ Extension 245: say "two four five", digit by digit — not "two hundred forty-five".</span></div>
+      <div class="ar">
+        <b>الطريقة الأولى (أرقام):</b> الأرقام والحسابات والextensions اقراها رقم رقم (four, four, two, one). المبالغ اقراها كمبلغ.<br><br>
+        <b>الطريقة التانية (تواريخ):</b> التاريخ الأمريكي: الشهر الأول ثم اليوم. 03/05 = March 5th مش 3 May. العملاء الأمريكان هيفهموها كده.<br><br>
+        <b>الطريقة التالتة (كلمات غريبة):</b> لو كلمة غريبة: قسّمها مقاطع (syllables) وانطقها ببطء الأول، وحدد المقطع اللي عليه النبرة، وبعدين اربطهم بسرعة.
+      </div>
+    </div>
+
+    <div class="card berry">
+      <div class="trig">Writing — the mix-ups that make a message look wrong</div>
+      <div class="ex"><span class="wrong">✗ Its ready.</span> → <span class="right">✓ It's ready.</span> (it's = it is)</div>
+      <div class="ex"><span class="wrong">✗ The system updated it's records.</span> → <span class="right">✓ ...updated its records.</span> (its = belongs to it, no apostrophe)</div>
+      <div class="ex"><span class="wrong">✗ Your welcome.</span> → <span class="right">✓ You're welcome.</span> (you're = you are)</div>
+      <div class="ex"><span class="wrong">✗ The client called their office, there waiting for a reply.</span> → <span class="right">✓ ...they're waiting for a reply.</span></div>
+      <div class="ex"><span class="wrong">✗ the client called me i will call back tomorrow</span> → <span class="right">✓ The client called me. I will call back tomorrow.</span> — capital letter, full stop, separate sentences.</div>
+      <div class="ex"><span class="wrong">✗ Please check the clients account and let me no if its fixed</span> → <span class="right">✓ Please check the client's account and let me know if it's fixed.</span></div>
+      <div class="ex"><span class="wrong">✗ we called Ahmed and Incall outsourcing about the issue</span> → <span class="right">✓ We called Ahmed and Incall Outsourcing about the issue.</span> — capitalize names and company names.</div>
+      <div class="ar">في الكتابة مفيش حد بيسمعك تصحح نفسك زي الكلام، فالغلط بيبان فورًا.<br><br>
+      <b>الطريقة الأولى (الاستبدال):</b> its → it is، your → you are، they're → they are. لو الجملة اتظبطت بالاستبدال يبقى صح، غير كده its/your/their.<br><br>
+      <b>الطريقة التانية (ملكية ولا جمع):</b> 's = ملكية (the client's account)، s لوحدها = جمع (the clients called).<br><br>
+      <b>الطريقة التالتة (علامات الجملة):</b> كل جملة تبدأ بحرف كبير وتنتهي بنقطة. I دايمًا كبيرة. أسماء الناس والشركات بحرف كبير (Incall Outsourcing). ولو الجملة طويلة اقفلها بنقطة وابدأ جملة جديدة.
+    </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-drill">
+    <div class="sec-head"><h2>60-second drill — say it, don't write it</h2></div>
+    <div class="drill"><div class="num">1</div><div class="txt">Say: "I called the client yesterday and left a message." — no "have".</div></div>
+    <div class="drill"><div class="num">2</div><div class="txt">Say: "She has already updated the account, but she called him last week too."</div></div>
+    <div class="drill"><div class="num">3</div><div class="txt">Say: "By the time I picked up, he had already hung up."</div></div>
+    <div class="drill"><div class="num">4</div><div class="txt">Say: "If you upgrade today, I'll apply the discount right now." — first conditional, real offer.</div></div>
+    <div class="drill"><div class="num">5</div><div class="txt">Say: "If I were you, I would take this deal." — second conditional.</div></div>
+    <div class="drill"><div class="num">6</div><div class="txt">Say: "He said he would call back tomorrow." Then, a day later: "He said he would call back the next day."</div></div>
+    <div class="drill"><div class="num">7</div><div class="txt">Read out loud: "Account 7-7-3-9, expiry 08/24, call time 2:15 PM."</div></div>
+  </div>
+
+  <div class="panel" id="panel-tongue">
+    <div class="sec-head"><h2>Tongue twisters — for the mouth, not the grammar</h2></div>
+    <div class="tw-list">
+      <a class="tw-link" href="https://www.youtube.com/watch?v=yHf1PGuTs1M" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8.001s-.2-1.4-.8-2c-.8-.8-1.7-.8-2.1-.9C16 5 12 5 12 5s-4 0-6.9.1c-.4.1-1.3.1-2.1.9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.6c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C7.2 19 12 19 12 19s4 0 6.9-.1c.4-.1 1.3-.1 2.1-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.6c0-1.6-.2-3.2-.2-3.2zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/></svg>
+        <span class="t">20 English Tongue Twisters — Practise &amp; Improve Pronunciation</span>
+      </a>
+      <a class="tw-link" href="https://www.youtube.com/@rachelsenglish" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 8.001s-.2-1.4-.8-2c-.8-.8-1.7-.8-2.1-.9C16 5 12 5 12 5s-4 0-6.9.1c-.4.1-1.3.1-2.1.9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.6c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C7.2 19 12 19 12 19s4 0 6.9-.1c.4-.1 1.3-.1 2.1-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.6c0-1.6-.2-3.2-.2-3.2zM9.9 14.6V8.9l5.4 2.9-5.4 2.8z"/></svg>
+        <span class="t">Rachel's English — pronunciation channel</span>
+      </a>
+      <a class="tw-link" href="https://www.youtube.com/results?search_query=english+tongue+twisters+pronunciation+practice" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span class="t">Live search (always works)</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+<footer>Tap a tab · read a card · say it out loud.</footer>
+
+<script>
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.panel');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      panels.forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+    });
+  });
+</script>
+</body>
+</html>
